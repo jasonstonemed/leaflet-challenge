@@ -5,10 +5,10 @@ let queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&
 d3.json(queryUrl).then(function (data) {  
   createFeatures(data.features);
 
-  var earthquakes = L.geoJSON(data, {
+  let earthquakes = L.geoJSON(data, {
     onEachFeature:onEachFeature
      });
-     console.log(earthquakes);
+    //  console.log(earthquakes);
 
   });
 
@@ -19,20 +19,11 @@ function createFeatures(earthquakeData) {
 
   // Define a function that we want to run once for each feature in the features array.
   // Give each feature a popup that describes the size and depth of the earthquake.
-// function onEachFeature(feature, layer) {
-    layer.bindPopup(`<h3>${geometry.coordinates}</h3><hr><p>${(feature.properties.mag)}</p>`);
+function onEachFeature(feature, layer) {
+    layer.bindPopup(`<h3>${feature.properties.place}, ${feature.geometry.coordinates}</h3><hr><p>${(feature.properties.mag)}</p>`);
+}
 
-    layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`)
-  }
-
-// Create a GeoJSON layer that contains the features array on the earthquakeData object.
-  // Run the onEachFeature function once for each piece of data in the array.
-// var earthquakes = L.geoJSON(earthquakeData, {
-//     onEachFeature:onEachFeature
-//      });
-//      console.log(earthquakes);
-
-  // Send our earthquakes layer to the createMap function/
+// Send our earthquakes layer to the createMap function/
   createMap(earthquakes);
 
 
